@@ -1,0 +1,59 @@
+import com.eviware.soapui.support.*
+import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestRequestStep
+
+// Try-catch block to handle exceptions
+try {
+	// 1. Get current date and timestamp values
+    def date = new Date()
+    def dts = date.format("yyyy-MM-dd-HH-mm-ss-ms")
+    def dt = date.format("yyyy-MM-dd")
+
+    // 2. Create Parent Directory
+    def parentDir = new File("C:/" + dt)
+    log.info parentDir
+    if (!parentDir.exists()) {
+        parentDir.mkdirs()
+    }
+
+    // 3. Create Sub Directory inside Parent Directory
+    def testSuite = testRunner.testCase.testSuite.name
+    def testCase = testRunner.testCase.name
+    def subDir = new File("C:/" + dt + "/" + testSuite)
+    if (!subDir.exists()) {
+        subDir.mkdirs()
+    }
+
+    // 4. Create a Report file inside Sub Directory
+    def report = new File("C:/" + dt + "/" + testSuite + "/" + "ExecutionReport" + ".csv")
+    if (!report.exists()) {
+        report.createNewFile()
+        report.write('"Test Suite Name","Test Case ID","Test Step Name","Assertion Name","Step Status","Error Message","Execution Date"')
+    }
+
+    // 6. Insert data into the Report file
+    testRunner.testCase.testStepList.each { testStep ->
+        def testStepName = testStep.name
+        def testSteps = testRunner.testCase.getTestStepByName(testStepName)
+        if (testSteps instanceof WsdlTestRequestStep) {
+            def list = testStep.getAssertionList()
+            for (assertion in list) {
+                report.append('\n')
+                report.append('"' + testSuite + '",')
+                report.append('"' + testCase + '",')
+                report.append('"' + testStepName + '",')
+                report.append('"' + assertion.name + '",')
+                report.append('"' + assertion.status + '",')
+                report.append('"')
+
+                for (MresMessage in assertion.getErrors()) {
+                    report.append('Message:' + MresMessage + '\n')
+                }
+                report.append('",')
+                //Write executionDate in the file
+                report.append('"' + dts + '",')
+            }
+        }
+    }
+} catch (exc) {
+    log.error("Exception happened: " + exc.toString())
+}

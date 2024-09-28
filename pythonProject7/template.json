@@ -1,0 +1,65 @@
+
+		{
+			"TCRMService": {
+				"@schemaLocation": "http://192.168.1.116:9080/com.ibm.mdm.server.ws.restful/resources/MDMWSRESTful MDMDomains.xsd",
+				"RequestControl": {
+					"requestID": "100005",
+					"DWLControl": {
+						"requesterName": "TEST",
+						"requesterLanguage": "100"
+					}
+				},
+				"TCRMTx": {
+					"TCRMTxType": "addPerson",
+					"TCRMTxObject": "TCRMPersonBObj",
+					"TCRMObject": {
+						"TCRMPersonBObj": {
+							"PartyType": "P",
+							"ClientStatusType": "1",
+							"TCRMPartyAddressBObj": {
+								"AddressUsageType": "1",
+								"TCRMAddressBObj": {
+									"AddressLineOne": "AddressLineOneColn",
+									"City": "CityColn",
+									"ZipPostalCode": "ZipPostalCodeColn",
+									"ResidenceNumber": "ResidenceNumberColn",
+									"ProvinceStateType": "ProvinceStateTypeColn",
+									"CountryType": "CountryTypeColn"
+								}
+							},
+							"TCRMPartyContactMethodBObj": [
+								{
+									"ContactMethodUsageType": "5",
+									"TCRMContactMethodBObj": {
+										"ReferenceNumber": "1-813-354-1347",
+										"ContactMethodType": "1"
+									}
+								},
+								{
+									"ContactMethodUsageType": "6",
+									"TCRMContactMethodBObj": {
+										"ReferenceNumber": "egaaet.laoreet@Aenean.ca",
+										"ContactMethodType": "2"
+									}
+								}
+							],
+							"TCRMPartyIdentificationBObj": {
+								"IdentificationType": "1",
+								"IdentificationNumber": "IdentificationNumberColn"
+							},
+							"TCRMAdminContEquivBObj": {
+								"AdminPartyId": "AdminPartyIdColn",
+								"AdminSystemType": "4"
+							},
+							"TCRMPersonNameBObj": {
+								"GenerationType": "1",
+								"NameUsageType": "1",
+								"GivenNameOne": "GivenNameOne",
+								"GivenNameTwo": "GivenNameTwoColn",
+								"LastName": "LastNameColn"
+							}
+						}
+					}
+				}
+			}
+		}

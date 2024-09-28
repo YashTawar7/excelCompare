@@ -1,0 +1,32 @@
+import com.eviware.soapui.support.*
+import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestRequestStep
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.io.File
+
+try {
+    def testSuite = testRunner.testCase.testSuite
+    def testCase = testRunner.testCase
+    def dt = new SimpleDateFormat("yyyy-MM-dd").format(new Date())
+    def testSuiteName = testSuite.name
+    def testCaseName = testCase.name
+    def baseDir = "C:/$dt/$testSuiteName/"
+
+    // Create parent directories if they don't exist
+    new File(baseDir).mkdirs()
+
+    testRunner.testCase.testStepList.each { testStep ->
+        log.info(testStep)
+        if (testStep instanceof WsdlTestRequestStep) {
+            def testStepName = testStep.name
+            def requestContent = context.expand('${' + testStepName + '#Request}')
+            def responseContent = context.expand('${' + testStepName + '#Response}')
+            def requestFile = new File("$baseDir/${testCaseName}_${testStepName}_Request.xml")
+            def responseFile = new File("$baseDir/${testCaseName}_${testStepName}_Response.xml")
+            requestFile.write(requestContent, "UTF-8")
+            responseFile.write(responseContent, "UTF-8")
+        }
+    }
+} catch (exc) {
+    log.error("Exception happened: $exc")
+}
